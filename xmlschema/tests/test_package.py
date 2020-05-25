@@ -39,6 +39,7 @@ class TestPackaging(unittest.TestCase):
         exclude = {
             'regex.py': [240, 241],
             'codepoints.py': [543],
+            'cli.py': [117, 133, 137, 140],
         }
 
         message = "\nFound a debug missing statement at line %d or file %r: %r"
@@ -56,7 +57,9 @@ class TestPackaging(unittest.TestCase):
                 continue
 
             match = self.missing_debug.search(line)
-            self.assertIsNone(match, message % (lineno, filename, match.group(0) if match else None))
+            if match is None or filename.endswith('/cli.py') and match.group(0) == 'print(':
+                continue
+            self.assertIsNone(match, message % (lineno, filename, match.group(0)))
 
     def test_version(self):
         message = "\nFound a different version at line %d or file %r: %r (may be %r)."

@@ -9,8 +9,8 @@
 # @author Davide Brunato <brunato@sissa.it>
 #
 from . import limits
-from .exceptions import XMLSchemaException, XMLSchemaRegexError, XMLSchemaURLError, \
-    XMLSchemaNamespaceError
+from .exceptions import XMLSchemaException, XMLSchemaRegexError, \
+    XMLSchemaResourceError, XMLSchemaNamespaceError
 from .etree import etree_tostring
 from .resources import (
     normalize_url, fetch_resource, load_xml_resource, fetch_namespaces,
