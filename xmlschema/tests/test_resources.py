@@ -418,8 +418,10 @@ class TestResources(unittest.TestCase):
 
         with self.assertRaises(TypeError) as ctx:
             XMLResource("https://xmlschema.test/vehicles.xsd", allow=None)
-        self.assertEqual(str(ctx.exception),
-                         "invalid type <class 'NoneType'> for the attribute 'allow'")
+        self.assertTrue(str(ctx.exception) ==
+                         "invalid type <class 'NoneType'> for the attribute 'allow'"
+                         or str(ctx.exception) ==
+                         "invalid type <type 'NoneType'> for the attribute 'allow'")
 
         with self.assertRaises(ValueError) as ctx:
             XMLResource("https://xmlschema.test/vehicles.xsd", allow='any')

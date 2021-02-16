@@ -57,13 +57,15 @@ class TestElementTree(unittest.TestCase):
         test_dir = os.path.dirname(__file__) or '.'
 
         cmd = [os.path.join(test_dir, 'check_etree_import.py')]
-        process = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output = process.stdout.decode('utf-8')
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, _ = process.communicate()
+        output = stdout.decode('utf-8')
         self.assertTrue("\nTest OK:" in output, msg="Wrong import of ElementTree after xmlschema")
 
         cmd.append('--before')
-        process = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        output = process.stdout.decode('utf-8')
+        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, _  = process.communicate()
+        output = stdout.decode('utf-8')
         self.assertTrue("\nTest OK:" in output, msg="Wrong import of ElementTree before xmlschema")
 
     def test_safe_xml_parser(self):

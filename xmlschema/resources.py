@@ -431,12 +431,15 @@ class XMLResource(object):
             self._access_control(url)
             _url, self._url = self._url, url
             try:
-                with urlopen(url, timeout=self.timeout) as resource:
-                    if self._lazy:
-                        for _, root in self.iterparse(resource, events=('start',)):
-                            return root, None, url
-                    else:
-                        return self.parse(resource).getroot(), None, url
+                resource = urlopen(url, timeout=self.timeout)
+                if self._lazy:
+                    for _, root in self.iterparse(resource, events=('start',)):
+                        resource.close()
+                        return root, None, url
+                else:
+                    result = self.parse(resource).getroot()
+                    resource.close()
+                    return result, None, url
             finally:
                 self._url = _url
 
